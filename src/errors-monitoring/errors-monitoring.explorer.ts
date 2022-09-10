@@ -4,7 +4,7 @@ import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { ErrorMonitoringProvider } from './error-monitoring-provider';
 import { ERRORS_MONITORING_KEY } from './errors-monitoring.decorator';
 
-Injectable();
+@Injectable()
 export class ErrorsMonitoringExplorer implements OnModuleInit {
   constructor(
     private discoveryService: DiscoveryService,
@@ -18,10 +18,8 @@ export class ErrorsMonitoringExplorer implements OnModuleInit {
   }
 
   explore(): void {
-    const instanceWrappers: InstanceWrapper[] = [
-      ...this.discoveryService.getControllers(),
-      ...this.discoveryService.getProviders(),
-    ];
+    const instanceWrappers: InstanceWrapper[] =
+      this.discoveryService.getProviders();
 
     instanceWrappers.forEach((wrapper: InstanceWrapper) => {
       const { instance } = wrapper;
@@ -30,7 +28,7 @@ export class ErrorsMonitoringExplorer implements OnModuleInit {
         return;
       }
 
-      // scanFromPrototype will iterate through all provider methods
+      // scanFromPrototype will iterate through all providers' methods
       this.metadataScanner.scanFromPrototype(
         instance,
         Object.getPrototypeOf(instance),

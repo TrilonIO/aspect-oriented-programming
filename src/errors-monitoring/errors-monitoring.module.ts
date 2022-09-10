@@ -1,14 +1,10 @@
-import { DynamicModule, Module, Type } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { DiscoveryModule } from '@nestjs/core';
+import { DatadogErrorMonitoringProviderModule } from './datadog/datadog-errors-monitoring-provider.module';
 import { ErrorsMonitoringExplorer } from './errors-monitoring.explorer';
 
 @Module({
+  imports: [DiscoveryModule, DatadogErrorMonitoringProviderModule],
   providers: [ErrorsMonitoringExplorer],
 })
-export class ErrorsMonitoringModule {
-  static withHandlerModule(module: Type<unknown>): DynamicModule {
-    return {
-      module: ErrorsMonitoringModule,
-      imports: [module],
-    };
-  }
-}
+export class ErrorsMonitoringModule {}

@@ -1,7 +1,7 @@
 import { Transaction } from './transaction';
 
 export abstract class Connection {
-  abstract transaction(
-    fn: (transaction: Transaction) => Promise<void>,
-  ): Promise<void>;
+  abstract transaction<R>(
+    fn: (transaction: Transaction) => Promise<R>,
+  ): Promise<R>;
 }
